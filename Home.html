@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html style="background-color: black;">
+<head>
+  <title>Accueil</title>
+  <link rel="shortcut icon" href="1.png" type="png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    
+    .topnav {
+      background-color: black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px; 
+      border-radius: 20px; 
+    }
+    
+    .topnav a {
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+      transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+      border-radius: 20px;
+    }
+    
+    .topnav a:hover {
+      color: #aa0404;
+      transform: scale(1.1);
+    }
+    
+    .topnav a.active {
+      background-color: #aa0404;
+      color: white;
+    }
+    
+    .logo {
+      position: absolute;
+      left: 10px;
+    }
+    
+    .carousel {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    
+    .carousel-item {
+      min-width: 10%;
+      flex: 0 0 auto;
+      margin-right: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .carousel-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .carousel-item h3 {
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      margin: 0;
+      padding: 5px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 0 0 10px 10px;
+      font-size: 14px;
+    }
+    .carousel-wrapper {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #111;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-wrapper h1 {
+      color: #fff;
+      font-size: 25px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #nouveaute-carousel {
+      margin-top: 20px;
+    }
+
+    #nouveaute-inner {
+     display: flex;
+     overflow-x: scroll;
+     scroll-snap-type: x mandatory;
+     -ms-overflow-style: none;
+     scrollbar-width: none;
+    }
+
+    #nouveaute-inner::-webkit-scrollbar {
+     display: none;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      width: 180px; 
+      margin-right: 20px;
+      scroll-snap-align: start;
+    }
+
+    .carousel-item img {
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-item h3 {
+      margin-top: 5px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="logo">
+  <img src="1.png" alt="Logo" width="50%">
+</div>
+
+<div class="topnav">
+  <a class="active" href="Home.html">Accueil</a>
+  <a href="catalogue.html">Catalogue</a>
+  <a href="panier.html">Panier</a>
+  <a href="compte.html">Compte</a>
+</div>
+
+<div class="carousel" style="padding-top:20px">
+  <h1 style="font-size: 25px;text-align: center;">Populaire</h1>
+  <div class="carousel-inner">
+      <div class="carousel-item" onclick="redirectToVente('Naruto')">
+          <a href="Manga.html?title=Naruto&prix=7.60">
+              <img src="Naruto.jpg" alt="Manga 1">
+              <h3>Naruto</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('Demon Slayer')">
+          <a href="Manga.html?title=Démon Slayer&prix=8.30">
+              <img src="Démon slayer.jpg" alt="Manga 2">
+              <h3>Démon Slayer</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('One Piece')">
+          <a href="Manga.html?title=One Piece&prix=9.40">
+              <img src="One piece.jpg" alt="Manga 3">
+              <h3>One Piece</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('Hunter X Hunter')">
+          <a href="Manga.html?title=Hunter X Hunter&prix=7.80">
+              <img src="Hunter X hunter.jpg" alt="Manga 4">
+              <h3>Hunter X Hunter</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('Spy x Family')">
+          <a href="Manga.html?title=Spy x Family&prix=8.30">
+              <img src="Spy.jpg" alt="Manga 5">
+              <h3>Spy x Family</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('Jujutsu Kaisen')">
+          <a href="Manga.html?title=Jujutsu Kaisen&prix=7.40">
+              <img src="JJK.jpg" alt="Manga 6">
+              <h3>Jujutsu Kaisen</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('Your Name')">
+          <a href="Manga.html?title=Your Name&prix=8.90">
+              <img src="Your name.jpg" alt="Manga 7">
+              <h3>Your Name</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('My Hero Academia')">
+          <a href="Manga.html?title=My Hero Academia&prix=7.60">
+              <img src="MHA.jpg" alt="Manga 8">
+              <h3>My Hero Academia</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('Death Note')">
+          <a href="Manga.html?title=Death Note&prix=9.30">
+              <img src="Death note.jpg" alt="Manga 9">
+              <h3>Death Note</h3>
+          </a>
+      </div>
+      <div class="carousel-item" onclick="redirectToVente('The Promised Neverland')">
+          <a href="Manga.html?title=The Promised Neverland&prix=7.80">
+              <img src="TPN.jpg" alt="Manga 10">
+              <h3>The Promised Neverland</h3>
+          </a>
+      </div>
+  </div>
+</div>
+
+      
+<script>
+  function redirectToVente(mangaTitle) {
+    window.location.href = `Manga.html?title=${mangaTitle}`;
+  </script>
+  
+  <script>
+  const carousel = document.querySelector('.carousel-inner');
+  let offset = 0;
+  let step = 50;
+  let interval;
+  let totalWidth = carousel.scrollWidth;
+  let carouselWidth = carousel.clientWidth;
+  
+  const scroll = () => {
+    offset += step;
+    if (offset >= totalWidth - carouselWidth) {
+      offset = 0;
+    }
+    carousel.style.transform = `translateX(-${offset}px)`;
+  };
+  
+  function stopScroll() {
+    clearInterval(interval);
+  }
+  
+  function startScroll() {
+    interval = setInterval(scroll, 2000);
+  }
+  
+  interval = setInterval(scroll, 2000);
+  
+</script>
+  
+<div class="carousel-wrapper">
+  <h1 style="font-size: 25px;">Nouveautés</h1>
+  <div class="carousel" id="nouveaute-carousel">
+      <div class="carousel-inner" id="nouveaute-inner">
+          <div class="carousel-item" onclick="redirectToVente('Frieren')">
+              <a href="Manga.html?title=Frieren&prix=8.10">
+                  <img src="frieren.jpg" alt="Manga 11">
+                  <h3>Frieren</h3>
+              </a>
+          </div>
+          <div class="carousel-item" onclick="redirectToVente('Solo Leveling')">
+              <a href="Manga.html?title=Solo Leveling&8.20">
+                  <img src="solo.jpg" alt="Manga 12">
+                  <h3>Solo Leveling</h3>
+              </a>
+          </div>
+          <div class="carousel-item" onclick="redirectToVente('Les carnets de l\'apothicaire')">
+              <a href="Manga.html?title=Les carnets de l'apothicaire&prix=8.30">
+                  <img src="les carnets de l'apothicaire.jpg" alt="Manga 13">
+                  <h3>Les carnets de l'apothicaire</h3>
+              </a>
+          </div>
+          <div class="carousel-item" onclick="redirectToVente('A sign of affection')">
+              <a href="Manga.html?title=Blue lock&prix=8.40">
+                  <img src="Blue lock.jpg" alt="Manga 14">
+                  <h3>Blue lock</h3>
+              </a>
+          </div>
+          <div class="carousel-item" onclick="redirectToVente('Oshi no ko')">
+              <a href="Manga.html?title=Oshi no ko&prix=8.50">
+                  <img src="Oshi no ko.jpg" alt="Manga 15">
+                  <h3>Oshi no ko</h3>
+              </a>
+          </div>
+      </div>
+  </div>
+</div>
+
+</body>
+</html>

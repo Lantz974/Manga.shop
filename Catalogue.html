@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html style="background-color: #111;">
+
+<head>
+    <title>Catalogue</title>
+    <link rel="shortcut icon" href="1.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .topnav {
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 20px;
+        }
+
+        .topnav a {
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+            transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            border-radius: 20px;
+        }
+
+        .topnav a:hover {
+            color: #aa0404;
+            transform: scale(1.1);
+        }
+
+        .topnav a.active {
+            background-color: #aa0404;
+            color: white;
+        }
+
+        .logo {
+            position: absolute;
+            left: 10px;
+        }
+
+        .genre-section {
+            margin-top: 20px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .genre-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .genre-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .genre-checkbox {
+            display: none;
+        }
+
+        .genre-button-label {
+            background-color: #aa0404;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .genre-button-label:hover {
+            background-color: #dd0505;
+        }
+
+        .manga-card {
+            background-color: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .manga-card:hover {
+            transform: scale(1.05);
+        }
+
+        .manga-image {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .manga-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #fff;
+        }
+
+        .manga-genres {
+            font-size: 14px;
+            margin-top: 5px;
+            color: #aaa;
+        }
+
+        .manga-price {
+            font-size: 16px;
+            margin-top: 10px;
+            color: #aaa;
+        }
+
+        @media screen and (max-width: 768px) {
+            .manga-card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .manga-card {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="logo">
+        <img src="1.png" alt="Logo" width="50%">
+    </div>
+
+    <div class="topnav">
+        <a href="Home.html">Accueil</a>
+        <a class="active" href="catalogue.html">Catalogue</a>
+        <a href="panier.html">Panier</a>
+        <a href="compte.html">Compte</a>
+    </div>
+
+    <div class="genre-section">
+        <h2 class="genre-title">Genres</h2>
+        <div class="genre-container">
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Tous les Genres" onclick="updateGenres()"> Tous les Genres</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Action" onchange="updateGenres()"> Action</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Aventure" onchange="updateGenres()"> Aventure</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Romance" onchange="updateGenres()"> Romance</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Fantasy" onchange="updateGenres()"> Fantasy</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Science-fiction" onchange="updateGenres()"> Science-fiction</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Horreur" onchange="updateGenres()"> Horreur</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Mystère" onchange="updateGenres()"> Mystère</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Comédie" onchange="updateGenres()"> Comédie</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Drame" onchange="updateGenres()"> Drame</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Thriller" onchange="updateGenres()"> Thriller</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Psychologique" onchange="updateGenres()"> Psychologique</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Super-héros" onchange="updateGenres()"> Super-héros</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Sport" onchange="updateGenres()"> Sport</label>
+            <label class="genre-button-label"><input type="checkbox" class="genre-checkbox" data-genre="Seinen" onchange="updateGenres()"> Seinen</label>
+        </div>
+    </div>
+
+
+    <div class="genre-section">
+      <h2 class="genre-title" id="selected-genre-title">Tous les Genres</h2>
+      <div class="genre-container" id="manga-container">
+          <!-- Les mangas seront affichés ici -->
+          <!-- Manga 1 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Aventure">
+              <a href="Manga.html?title=Naruto&prix=7.60">
+                  <img class="manga-image" src="Naruto.jpg" alt="Naruto">
+              </a>
+              <div class="manga-title">Naruto</div>
+              <div class="manga-genres">Shōnen, Action, Aventure</div>
+              <div class="manga-price">7.60€</div>
+          </div>
+          <!-- Manga 2 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Aventure">
+            <a href="Manga.html?title=Démon Slayer&prix=8.30">
+                  <img class="manga-image" src="Démon Slayer.jpg" alt="Demon Slayer">
+              </a>
+              <div class="manga-title">Demon Slayer</div>
+              <div class="manga-genres">Shōnen, Action, Aventure</div>
+              <div class="manga-price">8.30€</div>
+          </div>
+          <!-- Manga 3 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Aventure, Fantastique">
+              <a href="Manga.html?title=One%20Piece&prix=9.40">
+                  <img class="manga-image" src="One Piece.jpg" alt="One Piece">
+              </a>
+              <div class="manga-title">One Piece</div>
+              <div class="manga-genres">Shōnen, Action, Aventure, Fantastique</div>
+              <div class="manga-price">9.40€</div>
+          </div>
+          <!-- Ajouter les autres mangas ici -->
+          <!-- Manga 4 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Aventure">
+              <a href="Manga.html?title=Hunter%20X%20Hunter&prix=7.80">
+                  <img class="manga-image" src="Hunter X Hunter.jpg" alt="Hunter X Hunter">
+              </a>
+              <div class="manga-title">Hunter X Hunter</div>
+              <div class="manga-genres">Shōnen, Action, Aventure</div>
+              <div class="manga-price">7.80€</div>
+          </div>
+          <!-- Manga 5 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Comédie">
+              <a href="Manga.html?title=Spy%20x%20Family&prix=8.30">
+                  <img class="manga-image" src="Spy.jpg" alt="Spy x Family">
+              </a>
+              <div class="manga-title">Spy x Family</div>
+              <div class="manga-genres">Shōnen, Action, Comédie</div>
+              <div class="manga-price">8.30€</div>
+          </div>
+          <!-- Ajouter d'autres mangas ici -->
+          <!-- Manga 6 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Fantastique">
+              <a href="Manga.html?title=Jujutsu%20Kaisen&prix=7.40">
+                  <img class="manga-image" src="JJK.jpg" alt="Jujutsu Kaisen">
+              </a>
+              <div class="manga-title">Jujutsu Kaisen</div>
+              <div class="manga-genres">Shōnen, Action, Fantastique</div>
+              <div class="manga-price">7.40€</div>
+          </div>
+          <!-- Manga 7 -->
+          <div class="manga-card" data-genre="Romance, Fantastique, Drame">
+              <a href="Manga.html?title=Your%20Name&prix=8.90">
+                  <img class="manga-image" src="Your name.jpg" alt="Your Name">
+              </a>
+              <div class="manga-title">Your Name</div>
+              <div class="manga-genres">Romance, Fantastique, Drame</div>
+              <div class="manga-price">8.90€</div>
+          </div>
+          <!-- Manga 8 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Super-héros">
+              <a href="Manga.html?title=My%20Hero%20Academia&prix=7.60">
+                  <img class="manga-image" src="MHA.jpg" alt="My Hero Academia">
+              </a>
+              <div class="manga-title">My Hero Academia</div>
+              <div class="manga-genres">Shōnen, Action, Super-héros</div>
+              <div class="manga-price">7.60€</div>
+          </div>
+          <!-- Manga 9 -->
+          <div class="manga-card" data-genre="Mystère, Thriller, Psychologique">
+              <a href="Manga.html?title=Death%20Note&prix=9.30">
+                  <img class="manga-image" src="Death Note.jpg" alt="Death Note">
+              </a>
+              <div class="manga-title">Death Note</div>
+              <div class="manga-genres">Mystère, Thriller, Psychologique</div>
+              <div class="manga-price">9.30€</div>
+          </div>
+          <!-- Manga 10 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Horreur">
+              <a href="Manga.html?title=The%20Promised%20Neverland&prix=7.80">
+                  <img class="manga-image" src="TPN.jpg" alt="The Promised Neverland">
+              </a>
+              <div class="manga-title">The Promised Neverland</div>
+              <div class="manga-genres">Shōnen, Action, Horreur</div>
+              <div class="manga-price">7.80€</div>
+          </div>
+          <!-- Manga 11 -->
+          <div class="manga-card" data-genre="Action, Fantasy">
+              <a href="Manga.html?title=Frieren&prix=8.10">
+                  <img class="manga-image" src="Frieren.jpg" alt="Frieren">
+              </a>
+              <div class="manga-title">Frieren</div>
+              <div class="manga-genres">Action, Fantasy</div>
+              <div class="manga-price">8.10€</div>
+          </div>
+          <!-- Manga 12 -->
+          <div class="manga-card" data-genre="Action, Fantasy">
+              <a href="Manga.html?title=Solo%20Leveling&prix=8.20">
+                  <img class="manga-image" src="solo.jpg" alt="Solo Leveling">
+              </a>
+              <div class="manga-title">Solo Leveling</div>
+              <div class="manga-genres">Action, Fantasy</div>
+              <div class="manga-price">8.20€</div>
+          </div>
+          <!-- Manga 13 -->
+          <div class="manga-card" data-genre="Fantasy, Aventure">
+              <a href="Manga.html?title=Les%20carnets%20de%20l'apothicaire&prix=8.30">
+                  <img class="manga-image" src="les carnets de l'apothicaire.jpg" alt="Les carnets de l'apothicaire">
+              </a>
+              <div class="manga-title">Les carnets de l'apothicaire</div>
+              <div class="manga-genres">Fantasy, Aventure</div>
+              <div class="manga-price">8.30€</div>
+          </div>
+          <!-- Manga 14 -->
+          <div class="manga-card" data-genre="Shōnen, Action, Sport">
+              <a href="Manga.html?title=Blue%20lock&prix=8.40">
+                  <img class="manga-image" src="Blue Lock.jpg" alt="Blue lock">
+              </a>
+              <div class="manga-title">Blue lock</div>
+              <div class="manga-genres">Shōnen, Action, Sport</div>
+              <div class="manga-price">8.40€</div>
+          </div>
+          <!-- Manga 15 -->
+          <div class="manga-card" data-genre="Seinen, Drame">
+              <a href="Manga.html?title=Oshi%20no%20ko&prix=8.50">
+                  <img class="manga-image" src="Oshi no ko.jpg" alt="Oshi no ko">
+              </a>
+              <div class="manga-title">Oshi no ko</div>
+              <div class="manga-genres">Seinen, Drame</div>
+              <div class="manga-price">8.50€</div>
+          </div>
+          <!-- Ajouter d'autres mangas ici -->
+      </div>
+  </div>
+  
+
+    <script>
+        
+function updateGenres() {
+    let selectedGenres = [];
+    let allGenresCheckbox = document.querySelector('.genre-checkbox[data-genre="Tous les Genres"]');
+    let genreCheckboxes = document.querySelectorAll('.genre-checkbox:checked');
+    
+    if (allGenresCheckbox.checked) {
+        // Si "Tous les Genres" est coché, on décoche les autres genres
+        genreCheckboxes.forEach(checkbox => {
+            if (checkbox !== allGenresCheckbox) {
+                checkbox.checked = false;
+            }
+        });
+    } else {
+        // Sinon, on ajoute les genres sélectionnés
+        genreCheckboxes.forEach(checkbox => {
+            selectedGenres.push(checkbox.getAttribute('data-genre'));
+        });
+    }
+
+    let mangaCards = document.querySelectorAll('.manga-card');
+
+    mangaCards.forEach(card => {
+        let genres = card.getAttribute('data-genre').split(', ');
+        if (selectedGenres.length === 0 || selectedGenres.includes("Tous les Genres") || selectedGenres.every(genre => genres.includes(genre))) {
+            card.style.display = 'initial';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    let selectedGenreTitle = 'Tous les Genres';
+    if (selectedGenres.length > 0 && !selectedGenres.includes("Tous les Genres")) {
+        selectedGenreTitle = selectedGenres.join(', ');
+    }
+    document.getElementById('selected-genre-title').textContent = selectedGenreTitle;
+}
+
+document.querySelector('.genre-checkbox[data-genre="Tous les Genres"]').addEventListener('change', function() {
+    if (this.checked) {
+        // Si "Tous les Genres" est coché, on décoche les autres genres
+        document.querySelector('.genre-checkbox[data-genre="Tous les Genres"]').checked = false
+    }
+});
+
+// Appel initial pour afficher tous les mangas
+updateGenres();
+    </script>
+</body>
+
+</html>

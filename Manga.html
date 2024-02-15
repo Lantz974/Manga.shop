@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue</title>
+    <link rel="shortcut icon" href="1.png" type="png">
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #111;
+        color: white;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #222;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        width: 150px;
+    }
+
+    .topnav {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .topnav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+
+    .topnav a:hover {
+        background-color: #aa0404;
+    }
+
+    .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .manga-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .manga-info .manga-details {
+        flex: 1;
+        margin-right: 20px;
+
+    }
+
+    .manga-info img {
+        max-width: 300px;
+        border-radius: 10px;
+    }
+
+    .manga-info p {
+        margin-bottom: 10px;
+        text-align: justify;
+    }
+
+    .ajouter-panier {
+        background-color: #aa0404;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+
+    .ajouter-panier:hover {
+        background-color: #ff4d4d;
+    }
+
+.modal {
+display: none;
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+background-color: #222;
+margin: 10% auto;
+padding: 20px;
+border: 1px solid #aaa;
+border-radius: 10px;
+width: 80%;
+max-width: 400px;
+color: white;
+}
+
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: white;
+text-decoration: none;
+cursor: pointer;
+}
+
+.choix-tomes {
+background-color: #aa0404;
+color: #fff;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+margin-bottom: 20px;
+}
+
+.choix-tomes:hover {
+background-color: #ff4d4d;
+}
+
+.tomes-list {
+display: flex;
+flex-wrap: wrap;
+}
+
+.tomes-list label {
+flex: 0 0 33%;
+margin-bottom: 10px;
+cursor: pointer;
+}
+
+.tomes-list input[type="checkbox"] {
+margin-right: 10px;
+}
+
+        #notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            z-index: 9999;
+            animation: fadeOut 3s;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="logo">
+    <img src="1.png" alt="Logo">
+</div>
+
+<div class="topnav">
+    <a href="Home.html">Accueil</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="panier.html">Panier</a>
+    <a href="compte.html">Compte</a>
+</div>
+
+<div class="container">
+    <h1>Catalogue Manga</h1>
+    <div class="manga-info">
+        <div>
+            <img class="manga-image" src="" alt="">
+            <p class="prix"></p>
+            <button class="choix-tomes">Choix des tomes</button>
+            <button class="ajouter-panier">Ajouter au panier</button>
+        </div>
+        <div class="manga-details">
+            <div id="manga-info">
+            </div>
+            <p><a href="javascript:history.back()">Retour</a></p>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Choix des tomes</h2>
+        <div class="tomes-list" id="formTomes">
+        </div>
+    </div>
+</div>
+
+
+<div id="notification"></div>
+
+<script>
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 10000);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const title = urlParams.get('title');
+
+    const mangaData = {
+    "Naruto": {
+        "image": "Naruto.jpg",
+        "description": "Dans le village de Konoha vit Naruto, un jeune garçon détesté et craint des villageois du fait qu'il détienne en lui Kyuubi (démon renard à neuf queues) d'une incroyable force, qui a tué un grand nombre de personnes. Le ninja le plus puissant de Konoha à l'époque, le quatrième Hokage, Minato Namikaze, réussit à sceller ce démon dans le corps de Naruto. Malheureusement il y laissa la vie. C'est ainsi que douze ans plus tard, Naruto rêve de devenir le plus grand Hokage de Konoha afin que tous le reconnaissent à sa juste valeur. Mais la route pour devenir Hokage est très longue et Naruto sera confronté à un bon nombre d'épreuves et devra affronter de nombreux ennemis pour atteindre son but !",
+        "prix": "7.60€",
+        "tomes": Array.from({ length: 72 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Démon Slayer": {
+        "image": "Démon slayer.jpg",
+        "description": "Démon Slayer est une série de manga écrite et illustrée par Koyoharu Gotōge. L'histoire suit Tanjiro Kamado, un jeune garçon qui devient un chasseur de démons après que sa famille ait été massacrée par un démon, et son voyage pour guérir sa sœur Nezuko, qui est devenue un démon.",
+        "prix": "8.30€",
+        "tomes": Array.from({ length: 23 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "One Piece": {
+        "image": "One piece.jpg",
+        "description": "One Piece suit les aventures de Monkey D. Luffy, un jeune garçon qui rêve de devenir le roi des pirates en trouvant le One Piece, le trésor ultime laissé par Gol D. Roger, le précédent roi des pirates.",
+        "prix": "9.40€",
+        "tomes": Array.from({ length: 107 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Hunter X Hunter": {
+        "image": "Hunter X hunter.jpg",
+        "description": "Hunter × Hunter suit les aventures de Gon Freecss, un jeune garçon qui découvre que son père est un célèbre chasseur de primes. Gon décide de devenir lui aussi chasseur de primes pour le retrouver.",
+        "prix": "7.80€",
+        "tomes": Array.from({ length: 37 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Spy x Family": {
+        "image": "Spy.jpg",
+        "description": "Spy x Family suit les aventures de Twilight, un espion qui doit former une famille fictive pour une mission. Il recrute une espionne et une télépathe pour jouer le rôle de sa femme et de sa fille.",
+        "prix": "8.30€",
+        "tomes": Array.from({ length: 12 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Jujutsu Kaisen": {
+        "image": "JJK.jpg",
+        "description": "Jujutsu Kaisen suit Yuji Itadori, un lycéen qui rejoint une école de sorcellerie pour combattre des malédictions. Il se lie d'amitié avec d'autres élèves et cherche à devenir le plus puissant pour protéger ses amis.",
+        "prix": "7.40€",
+        "tomes": Array.from({ length: 25 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Your Name": {
+        "image": "Your name.jpg",
+        "description": "Your Name suit les aventures de Taki et Mitsuha, deux adolescents qui échangent mystérieusement de corps. Ils cherchent à se retrouver dans le monde réel malgré les défis.",
+        "prix": "8.90€",
+        "tomes": Array.from({ length: 3 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "My Hero Academia": {
+        "image": "MHA.jpg",
+        "description": "My Hero Academia suit Izuku Midoriya, un jeune homme qui rêve de devenir un héros malgré son absence de superpouvoirs. Il reçoit les pouvoirs d'All Might, le plus grand héros, et s'inscrit à l'école de héros U.A. High School.",
+        "prix": "7.60€",
+        "tomes": Array.from({ length: 39 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Death Note": {
+        "image": "Death note.jpg",
+        "description": "Death Note suit Light Yagami, un lycéen qui trouve un carnet qui permet de tuer les gens dont il écrit le nom. Il décide d'utiliser ce pouvoir pour créer un monde sans crime, mais se retrouve en conflit avec un détective mystérieux connu sous le nom de L.",
+        "prix": "9.30€",
+        "tomes": Array.from({ length: 12 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "The Promised Neverland": {
+        "image": "TPN.jpg",
+        "description": "The Promised Neverland suit Emma, Norman et Ray, trois orphelins qui découvrent que leur orphelinat est en réalité une ferme où les enfants sont élevés comme nourriture pour des démons. Ils cherchent un moyen de s'échapper et de libérer les autres enfants.",
+        "prix": "7.80€",
+        "tomes": Array.from({ length: 20 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Frieren": {
+        "image": "frieren.jpg",
+        "description": "Frieren suit les aventures de Frieren, un immortel qui a vécu des millénaires et a vu ses amis mortels vieillir et mourir. Il voyage dans le temps pour retrouver ses amis et trouver un sens à l'immortalité.",
+        "prix": "8.10€",
+        "tomes": Array.from({ length: 12 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Solo Leveling": {
+        "image": "solo.jpg",
+        "description": "Solo Leveling suit Jin-Woo, un chasseur de rang E, le plus faible, qui se retrouve soudainement dans un donjon. Il acquiert le pouvoir de devenir un chasseur de rang S, le plus fort, et cherche à découvrir la vérité derrière son pouvoir et le monde des chasseurs.",
+        "prix": "8.20€",
+        "tomes": Array.from({ length: 14 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Les carnets de l'apothicaire": {
+        "image": "les carnets de l'apothicaire.jpg",
+        "description": "Les Carnets de l'apothicaire suit les aventures d'un apothicaire qui voyage à travers le monde pour aider les gens avec ses connaissances en pharmacie. Il rencontre différents personnages et découvre les secrets de la médecine.",
+        "prix": "8.30€",
+        "tomes": Array.from({ length: 17 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Blue lock": {
+        "image": "Blue lock.jpg",
+        "description": "Blue Lock suit l'histoire de l'équipe de football japonaise, qui est en crise après une série de défaites. Les dirigeants décident de créer un programme spécial pour former une nouvelle génération de joueurs de football talentueux.",
+        "prix": "8.40€",
+        "tomes": Array.from({ length: 27 }, (_, i) => `Tome ${i + 1}`)
+    },
+    "Oshi no ko": {
+        "image": "Oshi no ko.jpg",
+        "description": "Oshi no Ko suit l'histoire de Haru, une fille ordinaire qui rêve de devenir une star de la musique. Elle découvre qu'elle est la fille illégitime d'une célébrité et décide de devenir une idol pour se rapprocher de sa mère.",
+        "prix": "8.50€",
+        "tomes": Array.from({ length: 8 }, (_, i) => `Tome ${i + 1}`)
+    }
+};
+
+    const mangaInfoContainer = document.getElementById('manga-info');
+    const mangaImage = document.querySelector('.manga-image');
+    const mangaPrix = document.querySelector('.prix');
+    const formTomes = document.getElementById('formTomes');
+    const ajouterPanierBtn = document.querySelector('.ajouter-panier');
+    var nomdesmangas = {
+    1: "Naruto" ,
+    2: "Démon Slayer"
+} 
+    
+
+    if (title && mangaData[title]) {
+        const manga = mangaData[title];
+        mangaInfoContainer.innerHTML = `
+            <h2>${title}</h2>
+            <p>${manga.description}</p>
+        `;
+        mangaImage.src = manga.image;
+        mangaImage.alt = title;
+        mangaPrix.textContent = `Prix: ${manga.prix}`;
+
+        manga.tomes.forEach(tome => {
+            const label = document.createElement('label');
+            label.innerHTML = `
+                <input type="checkbox" name="tome" value="${tome}">
+                ${tome}
+            `;
+            formTomes.appendChild(label);
+        });
+    } else {
+        mangaInfoContainer.innerHTML = '<p>Le manga sélectionné n\'a pas été trouvé.</p>';
+    }
+
+    const modal = document.getElementById("myModal");
+    const btn = document.querySelector('.choix-tomes');
+    const span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function addToPanier(title, price, prix) {
+    let panierItems = JSON.parse(localStorage.getItem('panierItems'));
+    if (!Array.isArray(panierItems)) {
+        panierItems = [];
+    }
+    
+    panierItems.push({ title, price, prix});
+    
+    localStorage.setItem('panierItems', JSON.stringify(panierItems));
+   
+}
+
+
+ajouterPanierBtn.addEventListener('click', () => {
+    const selectedTomes = Array.from(document.querySelectorAll('input[name="tome"]:checked')).map(input => input.value);
+    if (selectedTomes.length > 0) {
+        
+        const queryString = window.location.search;
+
+        const params = new URLSearchParams(queryString);
+
+        const nomdutome = params.get('title');
+        const prixdutome = params.get('prix')
+
+        selectedTomes.forEach((item, index) => {
+            addToPanier(nomdutome, item, prixdutome);
+        });
+        const message = `${selectedTomes.join(', ')} ajoutés au panier !`;
+        showNotification(message);
+    } else {
+        showNotification("Veuillez sélectionner au moins un tome.");
+    }
+}); 
+
+
+    
+</script>
+
+</body>
+</html>

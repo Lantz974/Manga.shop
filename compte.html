@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html style="background-color: #111;">
+<head>
+  <title>Compte</title>
+  <link rel="shortcut icon" href="1.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .topnav {
+      background-color: #000;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 20px;
+    }
+
+    .topnav a {
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+      transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+      border-radius: 20px;
+    }
+
+    .topnav a:hover {
+      color: #aa0404;
+      transform: scale(1.1);
+    }
+
+    .topnav a.active {
+      background-color: #aa0404;
+      color: white;
+    }
+
+    .logo {
+      position: absolute;
+      left: 10px;
+    }
+
+    .account-section {
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .purchase-history {
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #222;
+      max-width: 500px;
+      margin-top: 20px;
+    }
+
+    .purchase-item {
+      margin-bottom: 10px;
+    }
+
+    .purchase-item span {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .purchase-item .title {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="logo">
+  <img src="1.png" alt="Logo" width="50%">
+</div>
+
+<div class="topnav">
+  <a href="Home.html">Accueil</a>
+  <a href="catalogue.html">Catalogue</a>
+  <a href="panier.html">Panier</a>
+  <a class="active" href="compte.html">Compte</a>
+</div>
+
+<div class="account-section">
+  <h2 class="section-title">Espace Compte</h2>
+  <div class="purchase-history" id="purchase-history">
+    <h3 class="section-title">Historique des achats</h3>
+    <!-- Les achats seront ajoutés dynamiquement ici -->
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const purchaseHistory = document.getElementById('purchase-history');
+
+    // Récupérer les éléments du panier depuis le stockage local
+    const panierItems = JSON.parse(localStorage.getItem('panierItems')) || [];
+
+    // Afficher les éléments du panier dans l'historique des achats
+    panierItems.forEach(item => {
+      const purchaseItem = document.createElement('div');
+      purchaseItem.classList.add('purchase-item');
+      purchaseItem.innerHTML = `
+        <span class="title">Titre du manga:</span>
+        <span class="title">${item.title}</span>
+        <span class="price">Prix: ${item.prix}€</span>
+      `;
+      purchaseHistory.appendChild(purchaseItem);
+    });
+  });
+</script>
+
+</body>
+</html>

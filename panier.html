@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panier</title>
+  <link rel="shortcut icon" href="1.png" type="image/png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background-color: #111;
+    }
+
+    .topnav {
+      background-color: #000;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 20px;
+    }
+
+    .topnav a {
+      color: #fff;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+      transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+      border-radius: 20px;
+    }
+
+    .topnav a:hover {
+      color: #aa0404;
+      transform: scale(1.1);
+    }
+
+    .topnav a.active {
+      background-color: #aa0404;
+      color: #fff;
+    }
+
+    .logo {
+      position: absolute;
+      left: 10px;
+    }
+
+    .panier-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #222;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .panier-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+    }
+
+    .panier-item img {
+      max-width: 100px;
+      border-radius: 5px;
+    }
+
+    .panier-item-details {
+      flex: 1;
+      margin-left: 10px;
+    }
+
+    .panier-item-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .panier-item-price {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .panier-item-prix {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+
+    .panier-total {
+      margin-top: 20px;
+      text-align: right;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .panier-remove-btn {
+      cursor: pointer;
+      color: #aa0404;
+      font-weight: bold;
+    }
+
+    .payer-btn {
+      background-color: #aa0404;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .payer-btn:hover {
+      background-color: #dd0505;
+    }
+
+    /* Style pour la notification */
+    .notification {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      display: none; /* Initialement caché */
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div class="logo">
+  <img src="1.png" alt="Logo" width="50%">
+</div>
+
+<div class="topnav">
+  <a href="Home.html">Accueil</a>
+  <a href="catalogue.html">Catalogue</a>
+  <a class="active" href="panier.html">Panier</a>
+  <a href="compte.html">Compte</a>
+</div>
+
+<div class="panier-container">
+  <h1>Votre Panier</h1>
+  <div id="panier-items"></div>
+  <div class="panier-total">
+    Total: <span id="panier-total-amount">0€</span>
+  </div>
+  <button class="payer-btn" onclick="payer()">Payer</button>
+</div>
+
+<!-- Notification de paiement réussi -->
+<div class="notification" id="notification">
+  Paiement effectué avec succès !
+</div>
+
+<script>
+  const panierItemsContainer = document.getElementById('panier-items');
+  const panierTotalAmount = document.getElementById('panier-total-amount');
+  const notification = document.getElementById('notification');
+
+  function removeFromPanier(index) {
+    let panierItems = JSON.parse(localStorage.getItem('panierItems'));
+    if (Array.isArray(panierItems)) {
+      panierItems.splice(index, 1);
+      localStorage.setItem('panierItems', JSON.stringify(panierItems));
+      updatePanier();
+    } else {
+      console.error('Le panier est vide ou n\'est pas valide.');
+    }
+  }
+
+  function updatePanier() {
+    panierItemsContainer.innerHTML = '';
+    let panierItems = JSON.parse(localStorage.getItem('panierItems')) || [];
+    let total = 0;
+
+    panierItems.forEach((item, index) => {
+      const panierItem = document.createElement('div');
+      panierItem.classList.add('panier-item');
+      panierItem.innerHTML = `
+            <div class="panier-item-details">
+                <div class="panier-item-title">${item.title}</div>
+                <div class="panier-item-price">${item.price}</div>
+                <div class="panier-item-prix">Prix : ${item.prix}€</div>
+            </div>
+            <span class="panier-remove-btn" onclick="removeFromPanier(${index})">Retirer</span>
+        `;
+      panierItemsContainer.appendChild(panierItem);
+      total += parseFloat(item.prix);
+    });
+
+    panierTotalAmount.textContent = total.toFixed(2) + '€';
+  }
+
+  function payer() {
+    let panierItems = JSON.parse(localStorage.getItem('panierItems')) || [];
+    if (panierItems.length === 0) {
+      // Afficher la notification "Votre panier est vide"
+      notification.textContent = 'Votre panier est vide !';
+      notification.style.backgroundColor = '#ff3333'; // Rouge
+      notification.style.display = 'block';
+      // Masquer la notification après 5 secondes
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 5000);
+    } else {
+      // Simuler le paiement
+      // Réinitialiser le panier
+      localStorage.setItem('panierItems', JSON.stringify([]));
+      updatePanier();
+      // Afficher la notification "Paiement effectué avec succès"
+      notification.textContent = 'Paiement effectué avec succès !';
+      notification.style.backgroundColor = '#4CAF50'; // Vert
+      notification.style.display = 'block';
+      // Masquer la notification après 3 secondes
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  updatePanier();
+
+</script>
+</body>
+</html>
